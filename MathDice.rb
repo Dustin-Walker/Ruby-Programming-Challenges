@@ -3,7 +3,10 @@
 
 input = gets.chomp.split(' ')
 prnd = Random.new
-targetNumber = prnd.rand((input[0].split('d')[1].to_i)+1)
+targetArray = Array.new
+input[0].split('d')[0].to_i.times { targetArray << prnd.rand((input[0].split('d')[1].to_i)+1) }
+targetNumber = 1
+targetArray.each { |targetDieValue| targetNumber*=targetDieValue}
 numberOfDice = input[1].split('d')[0].to_i
 sizeOfDice = input[1].split('d')[1].to_i
 puts "Target Value = #{targetNumber}"
