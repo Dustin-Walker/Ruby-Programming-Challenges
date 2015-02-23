@@ -2,38 +2,43 @@
 #http://www.reddit.com/r/dailyprogrammer/comments/2qxrtk/20141231_challenge_195_intermediate_math_dice/
 
 input = gets.chomp.split(' ')
-targetNumber = input[0].split('d')[1].to_i
+prnd = Random.new
+targetNumber = prnd.rand((input[0].split('d')[1].to_i)+1)
 numberOfDice = input[1].split('d')[0].to_i
 sizeOfDice = input[1].split('d')[1].to_i
-p "target = #{targetNumber}, numberofdice = #{numberOfDice}, sizeOfDice = #{sizeOfDice}."
+puts "Target Value = #{targetNumber}"
 diceSet = Array.new
-prnd = Random.new
 numberOfDice.times {diceSet << (prnd.rand(sizeOfDice)+1).to_i }
-diceSet.sort!.reverse!
 sum=0
+print "Dice Values = "
 diceSet.each do |newDieValue| 
 	sum+=newDieValue
-	p newDieValue
+	print newDieValue.to_s+" "
 end
-p sum
+diceSet.sort!.reverse!
+stringBuilder = ""
 if(sum<targetNumber)
-	p "This set has no solution."
+	puts "\nThis set has no solution."
 else
 	# Look for solutions
 	# Re-using sum to reach. This is a greedy approach.
 	sum = 0
 	diceSet.each do |currentDie|
 		if(targetNumber>sum || sum<targetNumber-currentDie)
-			p "Sum #{sum} + #{currentDie}"
+			#p "Sum #{sum} + #{currentDie}"
+			stringBuilder << "+" << currentDie.to_s
 			sum+=currentDie
 		elsif(targetNumber<=sum || sum>targetNumber+currentDie)
-			p "Sum #{sum} - #{currentDie}"
+			#p "Sum #{sum} - #{currentDie}"
+			stringBuilder << "-" << currentDie.to_s
 			sum-=currentDie
 		end
 	end
 	if(sum==targetNumber)
-		p "Valid solution found."
+		puts "\nValid solution found."
+		puts stringBuilder+" = "+targetNumber.to_s
 	else
-		p "No valid solution found."
+		puts "\nNo valid solution found."
+		puts stringBuilder
 	end
 end
