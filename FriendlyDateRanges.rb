@@ -19,7 +19,7 @@ def dayBuilder(day=0)
 	dayEnd = @day.to_s.slice(@day.to_s.size-1)
 	@day.to_s << daySuffixHash[dayEnd.to_i]
 end
-input = gets.chomp.split(/\s/) # Pattern means "split on white space or a dash"
+input = gets.chomp.split(/\s/) # Pattern means "split on white space"
 date1 = Date.parse(input[0])
 date2 = Date.parse(input[1])
 if date2 === date1
