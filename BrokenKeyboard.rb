@@ -4,15 +4,21 @@
 def longestWordUsingChars(input, dictionaryFilePath)
   dict = File.open(dictionaryFilePath).read
   dict.gsub!(/\r\n?/, "\n")
-  longest = ""
+  longest = Array.new
   pattern = "^[" << input << "]+$" # /^['input']+$/
 	regexp = Regexp.new(pattern)
   dict.each_line do |word|
-    if(word.length > longest.length)
+    if(longest.empty? || word.chomp.size == longest.first.size)
 	    if(word.match(regexp))
-		    longest = word.chomp
+		    longest.concat(word.chomp.unpack("A*"))
       end
-    end	
+    end
+    if(longest.empty? || word.chomp.size > longest.first.size)
+	    if(word.match(regexp))
+	      longest.clear
+		    longest.concat(word.chomp.unpack("A*"))
+      end
+    end
   end
   longest
 end
